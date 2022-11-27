@@ -3,6 +3,7 @@ body {
   color: blue;
   text-align: center;
   font-family: Segoe UI;
+  margin: 0;
 }
 
 #game {
@@ -13,6 +14,13 @@ body {
 
 table {
   border-spacing: 5px;
+  margin: 0;
+}
+
+#board {
+  height: 50vw;
+  width: 50vw;
+  /* border: solid 2px blue; */
 }
 
 /* game board table */
@@ -25,7 +33,6 @@ table {
 /* pieces are div within game table cells: draw as colored circles */
 
 .piece {
-  /* TODO: make into circles */
   margin: 5px;
   width: 80%;
   height: 80%;
@@ -43,8 +50,6 @@ table {
   background-repeat: no-repeat;
 }
 
-/* TODO: make pieces red/blue,  depending on player 1/2 piece */
-
 /* column-top is table row of clickable areas for each column */
 
 th {
@@ -53,5 +58,47 @@ th {
 }
 
 th:hover {
-  background-color: gold;
+  background-color: darkslateblue;
+}
+
+aside {
+  margin: 0 5%;
+  padding: 2%;
+  font-weight: 650;
+  border: 2px solid blue;
+  height: 49vw;
+  width: 30vw;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+}
+
+h3 {
+  margin: 0;
+}
+
+#restart {
+  background-color: blue;
+  color: gold;
+  padding: 2%;
+}
+
+#restart:hover {
+  cursor: pointer;
+}
+
+#winBanner {
+  font-size: 4em;
+  position: fixed;
+  top: 20vw;
+  width: 100vw;
+  background-color: darkslateblue;
+  padding-bottom: 1%;
+  display: none;
+}
+
+#winBanner.visible {
+  display: block;
 }

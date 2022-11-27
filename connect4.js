@@ -10,6 +10,7 @@ const HEIGHT = 6;
 let currPlayer = 1; // active player: 1 or 2
 const board = []; // array of rows, each row is array of cells  (board[y][x])
 let end = false;
+const players = [, "Pacman", "Ghost"]; // First value emtpy to simplify messages
 
 /** makeBoard: create in-JS board structure:
  *    board = array of rows, each row is array of cells  (board[y][x])*/
@@ -55,10 +56,14 @@ function makeHtmlBoard() {
     }
     htmlBoard.append(row);
   }
+
+  // Add restart button with listener
+  const restart = document.querySelector("#restart");
+  restart.htmlBoard = htmlBoard;
+  restart.addEventListener("click", restartGame);
 }
 
 /** findSpotForCol: given column x, return top empty y (null if filled) */
-
 function findSpotForCol(x) {
   // TODO: write the real version of this, rather than always returning 0
   for (let y = 5; y > -1; y--) {
@@ -68,27 +73,58 @@ function findSpotForCol(x) {
 }
 
 /** placeInTable: update DOM to place piece into HTML table of board */
-
 function placeInTable(x, y) {
-  // TODO: make a div and insert into correct table cell
+  // Make a div and insert into correct table cell
   const piece = document.createElement("div");
+  // Give it classname of "piece p1" or "piece p2"
   piece.className = `piece p${currPlayer}`;
   document.getElementById(`${x}-${y}`).append(piece);
 }
 
 /** endGame: announce game end */
-
 function endGame(msg) {
+  const winBanner = document.querySelector("#winBanner");
   // Timeout leaves time for token to appear
   setTimeout(() => {
-    alert(msg);
+    // alert(msg);
+    // Make banner visible (css property)
+    winBanner.classList.add("visible");
+    winBanner.innerText = `🎊 ${msg} 🎊`;
+    // Also add message in result div on the side
+    document.querySelector("#result").innerText = msg;
   }, 500);
+  setTimeout(() => {
+    // Wait 1.5s from appearance and hide again
+    winBanner.classList.remove("visible");
+  }, 2000);
   // Set to true to prevent anymore changes
   end = true;
 }
 
-/** handleClick: handle click of column top to play piece */
+/** restartGame: resets board when buttons is clicked */
+function restartGame(evt) {
+  // Make winner start again
+  let msg = `Player ${players[currPlayer]} starts!`;
+  // Except if it was reset before a tie or a win
+  if (!checkForTie() && !checkForWin()) {
+    // In that case the player that didn't reset starts
+    msg = `Player ${players[currPlayer]} reset!`;
+    currPlayer = currPlayer == 1 ? 2 : 1;
+    document.querySelector("#turn").innerText = `${players[currPlayer]}'s turn`;
+  }
+  document.querySelector("#result").innerText = msg;
 
+  // Clear board array
+  for (let y = 0; y < HEIGHT; y++) board.pop();
+  makeBoard();
+  // Clear board table
+  evt.currentTarget.htmlBoard.innerHTML = "";
+  makeHtmlBoard();
+  // Reset this too
+  end = false;
+}
+
+/** handleClick: handle click of column top to play piece */
 function handleClick(evt) {
   // get x from ID of clicked cell ("+" turns str into num)
   const x = +evt.target.id;
@@ -105,8 +141,7 @@ function handleClick(evt) {
 
   // check for win
   if (checkForWin()) {
-    const winner = currPlayer == 1 ? "Pacman" : "Ghost";
-    return endGame(`Player ${winner} won!`);
+    return endGame(`Player ${players[currPlayer]} won!`);
   }
 
   // check for tie
@@ -116,6 +151,7 @@ function handleClick(evt) {
 
   // switch players
   currPlayer = currPlayer == 1 ? 2 : 1;
+  document.querySelector("#turn").innerText = `${players[currPlayer]}'s turn`;
 }
 
 // Returns true if every cell does NOT have null
@@ -124,7 +160,6 @@ function checkForTie() {
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
-
 function checkForWin() {
   function _win(cells) {
     // Check four cells to see if they're all color of current player

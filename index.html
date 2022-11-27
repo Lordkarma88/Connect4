@@ -5,12 +5,19 @@
 </head>
 <body>
 
-  <h1>Pacman Connect 4!</h1>
+  <h1>Pacman Connect 4</h1>
 
   <div id="game">
     <table id="board"></table>
-    <aside></aside>
+    <aside>
+      <h3>Welcome</h3>
+      <p>Click the top row to start!</p>
+      <p id="turn">Pacman's turn</p>
+      <p id="result">Winner gets to start again!</p>
+      <label id="restart">Restart</button>
+    </aside>
   </div>
+  <h2 id="winBanner"></h2>
 
   <script src="connect4.js"></script>
 
