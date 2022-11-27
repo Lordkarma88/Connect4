@@ -1,9 +1,25 @@
-/* game board table */
+body {
+  background-color: black;
+  color: blue;
+  text-align: center;
+  font-family: Segoe UI;
+}
 
-#board td {
+#game {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+table {
+  border-spacing: 5px;
+}
+
+/* game board table */
+#board td, th {
   width: 50px;
   height: 50px;
-  border: solid 1px #666;
+  border: solid 2px blue;
 }
 
 /* pieces are div within game table cells: draw as colored circles */
@@ -15,14 +31,27 @@
   height: 80%;
 }
 
+.p1 {
+  background-image: url(/images/pacman.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.p2 {
+  background-image: url(/images/ghost.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
 /* TODO: make pieces red/blue,  depending on player 1/2 piece */
 
 /* column-top is table row of clickable areas for each column */
 
-#column-top td {
-  border: dashed 1px lightgray;
+th {
+  border-style: dashed;
+  border-top-width: 1px;
 }
 
-#column-top td:hover {
+th:hover {
   background-color: gold;
 }
