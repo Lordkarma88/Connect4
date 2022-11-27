@@ -30,6 +30,21 @@ table {
   border: solid 2px blue;
 }
 
+td {
+  vertical-align: top;
+}
+
+/* column-top is table row of clickable areas for each column */
+
+th {
+  border-style: dashed;
+  border-top-width: 1px;
+}
+
+th:hover {
+  background-color: darkslateblue;
+}
+
 /* pieces are div within game table cells: draw as colored circles */
 
 .piece {
@@ -48,17 +63,6 @@ table {
   background-image: url(/images/ghost.png);
   background-size: contain;
   background-repeat: no-repeat;
-}
-
-/* column-top is table row of clickable areas for each column */
-
-th {
-  border-style: dashed;
-  border-top-width: 1px;
-}
-
-th:hover {
-  background-color: darkslateblue;
 }
 
 aside {
@@ -96,9 +100,11 @@ h3 {
   width: 100vw;
   background-color: darkslateblue;
   padding-bottom: 1%;
-  display: none;
+  opacity: 0;
+  transition: 200ms;
 }
 
 #winBanner.visible {
-  display: block;
+  opacity: 1;
+  transition: 500ms;
 }
