@@ -11,6 +11,8 @@ let currPlayer = 1; // active player: 1 or 2
 const board = []; // array of rows, each row is array of cells  (board[y][x])
 let end = false;
 const players = [, "Pacman", "Ghost"]; // First value emtpy to simplify messages
+const turn = document.querySelector("#turn");
+let topRow; // To access later
 
 /** makeBoard: create in-JS board structure:
  *    board = array of rows, each row is array of cells  (board[y][x])*/
@@ -31,18 +33,19 @@ function makeHtmlBoard() {
   const htmlBoard = document.querySelector("#board");
 
   // Create top row to click on
-  const top = document.createElement("tr");
-  top.setAttribute("id", "column-top");
-  top.addEventListener("click", handleClick);
+  topRow = document.createElement("tr");
+  topRow.setAttribute("id", "column-top");
+  topRow.className = `${players[currPlayer]}`;
+  topRow.addEventListener("click", handleClick);
 
   // Create head for each column
   for (let x = 0; x < WIDTH; x++) {
     const headCell = document.createElement("th");
     // Set id to x position
     headCell.setAttribute("id", x);
-    top.append(headCell);
+    topRow.append(headCell);
   }
-  htmlBoard.append(top);
+  htmlBoard.append(topRow);
 
   // Create row for each x pos
   for (let y = 0; y < HEIGHT; y++) {
@@ -107,10 +110,9 @@ function restartGame(evt) {
   let msg = `Player ${players[currPlayer]} starts!`;
   // Except if it was reset before a tie or a win
   if (!checkForTie() && !checkForWin()) {
-    // In that case the player that didn't reset starts
+    // In that case the player who didn't reset gets to start
     msg = `Player ${players[currPlayer]} reset!`;
-    currPlayer = currPlayer == 1 ? 2 : 1;
-    document.querySelector("#turn").innerText = `${players[currPlayer]}'s turn`;
+    switchPlayers();
   }
   document.querySelector("#result").innerText = msg;
 
@@ -122,6 +124,17 @@ function restartGame(evt) {
   makeHtmlBoard();
   // Reset this too
   end = false;
+}
+
+/** switchPlayers: switches players and related info on screen */
+function switchPlayers() {
+  // Switch players
+  currPlayer = currPlayer == 1 ? 2 : 1;
+  // Change turn's text and class (color)
+  turn.innerText = `${players[currPlayer]}'s turn`;
+  turn.classList = `p${currPlayer}`;
+  // Change topRow's class (bgimg)
+  topRow.className = `${players[currPlayer]}`;
 }
 
 /** handleClick: handle click of column top to play piece */
@@ -149,9 +162,8 @@ function handleClick(evt) {
     return endGame(`Tis a tie!`);
   }
 
-  // switch players
-  currPlayer = currPlayer == 1 ? 2 : 1;
-  document.querySelector("#turn").innerText = `${players[currPlayer]}'s turn`;
+  // Switch players
+  switchPlayers();
 }
 
 // Returns true if every cell does NOT have null
