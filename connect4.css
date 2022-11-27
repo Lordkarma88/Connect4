@@ -50,26 +50,26 @@ th {
 }
 
 .p1 {
-  background-image: url(/images/pacman.png);
+  background-image: url(images/pacman.png);
   background-size: contain;
   background-repeat: no-repeat;
   color: gold;
 }
 
 .p2 {
-  background-image: url(/images/ghost.png);
+  background-image: url(images/ghost.png);
   background-size: contain;
   background-repeat: no-repeat;
   color: red;
 }
 
 #column-top.Pacman th:hover {
-  background: darkslateblue url(/images/pacman.png) no-repeat center;
+  background: darkslateblue url(images/pacman.png) no-repeat center;
   background-size: 70%;
 }
 
 #column-top.Ghost th:hover {
-  background: darkslateblue url(/images/ghost.png) no-repeat center;
+  background: darkslateblue url(images/ghost.png) no-repeat center;
   background-size: 70%;
 }
 
